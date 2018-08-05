@@ -1,0 +1,57 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>Google Maps Multiple Markers</title>
+  <script src="http://maps.google.com/maps/api/js?sensor=false"
+          type="text/javascript"></script>
+</head>
+<body>
+  <div id="map" style="width: 100%; height: 100%;"></div>
+
+  <script type="text/javascript">
+
+  
+
+    var locations = [
+	['Le helleux', 16.241229, -61.338112, 4,'https://www.allosurf.net/meteo/surf/plage-du-helleux-meteo-ww3-54-gfs-27-1-a-8-jours-100063.html'],
+    ['Le spot', 16.336716, -61.362008, 5,'https://www.allosurf.net/meteo/surf/le-moule-meteo-ww3-54-gfs-27-1-a-8-jours-1062207.html'],
+    ['Port Louis', 16.429884, -61.539192, 3,'https://www.allosurf.net/meteo/surf/port-louis-meteo-ww3-54-gfs-27-1-a-8-jours-872.html'],
+    ['Anse bertrand, la chapelle', 16.472858, -61.511812, 2,'https://www.allosurf.net/meteo/surf/plage-de-la-chapelle-meteo-ww3-54-gfs-27-1-a-8-jours-1086.html'],
+     ['La caravelle, la digue', 16.216764, -61.396533, 1,'https://www.allosurf.net/meteo/surf/caravelle-la-digue-meteo-ww3-54-gfs-27-1-a-8-jours-1062215.html'],
+	 ['La bouelle', 16.326683, -61.305211, 6,'https://www.allosurf.net/meteo/surf/anse-a-la-bouelle-meteo-ww3-54-gfs-27-1-a-8-jours-30004.html'],
+		['Petit havre', 16.207588, -61.426499, 7,'https://www.allosurf.net/meteo/surf/petit-havre-meteo-ww3-54-gfs-27-1-a-8-jours-1094.html'],
+		['Bananier',15.999964, -61.602043, 8,'https://www.allosurf.net/meteo/surf/bananier-meteo-ww3-54-gfs-27-1-a-8-jours-30003.html']
+    ];
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 10,
+      center: new google.maps.LatLng(16.2685589, -61.5784527),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    var infowindow = new google.maps.InfoWindow();
+
+    
+    var marker = {}, i = 0, il = locations.length;
+    for (i; i < il; i++) {
+          marker = new google.maps.Marker({
+          position: new google.maps.LatLng(locations[i][1],locations[i][2]),
+          map: map,
+          url: locations[i][4]
+      });
+      google.maps.event.addListener(marker, 'click', function() {
+      window.locations.href = marker.url;
+        });
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+          return function() {
+
+            var content = '<div>' + locations[i][0] + '</div>' +
+                          '<a href="' + locations[i][4] + '" target="_blank" >' + locations[i][4] + '</a>'; 
+            infowindow.setContent(content);
+            infowindow.open(map, marker);
+          }
+        })(marker, i));
+    }
+  </script>
+</body>
+</html>
